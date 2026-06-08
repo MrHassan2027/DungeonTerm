@@ -1,15 +1,15 @@
 # DungeonTerm
 
-> Roguelike dungeon crawler in the terminal — procedural generation, fog of war, inventory system
+> Roguelike dungeon crawler in the terminal — procedural generation and fog of war
 
 ## What it does
-A classic roguelike game that runs entirely in the terminal. Procedurally generates dungeons with rooms, corridors, enemies, and loot. Features fog of war, turn-based combat, item pickup/usage, and permadeath. Built using ANSI escape codes — no ncurses dependency.
+A classic roguelike game that runs entirely in the terminal. Procedurally generates dungeons with rooms and corridors, features fog of war so only explored tiles stay visible, and runs a turn-based game loop. Uses Python's `curses` library for terminal rendering.
 
 ## Quick Start
 ```bash
-git clone https://github.com/yourusername/DungeonTerm
+git clone https://github.com/MrHassan2027/DungeonTerm
 cd DungeonTerm
-pip install -r requirements.txt
+pip install -e .
 python -m dungeonterm
 ```
 
@@ -17,43 +17,26 @@ python -m dungeonterm
 | Key | Action |
 |-----|--------|
 | `↑↓←→` or `WASD` | Move |
-| `i` | Open inventory |
-| `g` | Pick up item |
-| `u` | Use item |
-| `>` | Descend stairs |
-| `?` | Help |
+| `>` | Descend stairs to next level |
+| `q` | Quit |
 
 ## Features
-- Procedural dungeon generation (BSP room splitting)
+- Procedural dungeon generation (rooms + corridors)
 - Fog of war: only explored tiles stay visible
-- Turn-based combat with attack/defense stats
-- Enemy AI: patrol, chase, attack
-- Items: health potions, weapons, armor, scrolls
-- Inventory system with item equipping
-- 10 dungeon levels with scaling difficulty
-- High score board (local SQLite)
-- Permadeath — save state clears on death
+- Turn-based movement
+- Stairs to descend to a new dungeon level
 
 ## Tech Stack
 | Tool | Why |
 |------|-----|
 | Python 3.11+ | Core game loop |
 | `curses` | Terminal rendering + input |
-| `random` / BSP | Procedural dungeon generation |
-| `aiosqlite` | High score persistence |
+| `random` | Procedural dungeon generation |
 
 ## Architecture
 ```
 dungeonterm/
-├── engine/
-│   ├── world.py       # Dungeon generation (BSP)
-│   ├── fov.py         # Field-of-view / fog of war
-│   ├── combat.py      # Turn-based combat
-│   └── ai.py          # Enemy pathfinding (A*)
-├── entities/
-│   ├── player.py
-│   ├── enemy.py
-│   └── item.py
-└── render/
-    └── terminal.py    # ANSI/curses renderer
+├── __main__.py      # Entry point: game loop, curses init, rendering
+└── engine/
+    └── world.py     # Dungeon generation: rooms, corridors, stairs
 ```
